@@ -19,7 +19,7 @@ function login(username, password, from) {
             .then(
                 user => { 
                     dispatch(success(user));
-                    history.push(from);
+                    history.push("/additem");
                 },
                 error => {
                     dispatch(failure(error.toString()));
