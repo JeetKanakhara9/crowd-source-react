@@ -8,7 +8,11 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
-import {AddItem}  from '../Item'
+import {AddItem}  from '../Item';
+import Navbar from '../NavBar/Navbar';
+import ShowItems from '../Item/ShowItems';
+import {useFetch} from '../custom-hooks/useFetch';
+import '../Item/index.css';
 function App() {
     const alert = useSelector(state => state.alert);
     const dispatch = useDispatch();
@@ -21,14 +25,21 @@ function App() {
     }, []);
 
     return (
-        <div className="jumbotron">
-            <div className="container">
-                <div className="col-md-8 offset-md-2">
+        <div className="container-full-bg"> 
+        <div>
+            <div>
+                    
+                 <div> 
                     {alert.message &&
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
                     <Router history={history}>
+                        <Navbar/>
+                        <br></br>
+                        <br></br>
+                        <br></br>
                         <Switch>
+                            <Route path="/showitems" component={ShowItems}/>n
                             <PrivateRoute exact path="/" component={HomePage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/register" component={RegisterPage} />
@@ -36,8 +47,9 @@ function App() {
                             <Redirect from="*" to="/" />
                         </Switch>
                     </Router>
-                </div>
+                 </div> 
             </div>
+        </div>
         </div>
     );
 }
