@@ -12,7 +12,8 @@ import {AddItem}  from '../Item';
 import Navbar from '../NavBar/Navbar';
 import ShowItems from '../Item/ShowItems';
 import {useFetch} from '../custom-hooks/useFetch';
-import '../Item/index.css';
+import '../Item/indexelements.js';
+import {ProfilePage} from '../Profile';
 function App() {
     const alert = useSelector(state => state.alert);
     const dispatch = useDispatch();
@@ -39,11 +40,17 @@ function App() {
                         <br></br>
                         <br></br>
                         <Switch>
-                            <Route path="/showitems" component={ShowItems}/>n
-                            <PrivateRoute exact path="/" component={HomePage} />
+                           
+                            <PrivateRoute exact path="/" component={LoginPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/register" component={RegisterPage} />
+                            <PrivateRoute path="/showallitems" component={() => <ShowItems url={`http://localhost:8085/getAllItems`} />}/>
+                            <PrivateRoute path="/profile" component={ProfilePage}/>
+                            {/* <Route path="/showuseritems" component={() => <ShowItems url={`http://localhost:8085/getAllItems`} />}/>
+                            <Route path="/showallitems" component={() => <ShowItems url={`http://localhost:8085/getAllItems`} />}/> */}
+                            <Route path="/logout" component={LoginPage}/>
                             <PrivateRoute path="/additem" component={AddItem} />
+                            <PrivateRoute path ="/additem/:id" component={AddItem}/>
                             <Redirect from="*" to="/" />
                         </Switch>
                     </Router>

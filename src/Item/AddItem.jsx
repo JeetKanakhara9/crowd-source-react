@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { alertActions, itemActions } from '../_actions';
 import { userActions } from '../_actions';
 
 function AddItem() {
+    //console.log(window.location);
+    let params = (new URL(document.location)).searchParams;
+    let ID=params.get("id");
+    console.log(ID);
+    //const {id} = useParams();
+    //console.log({id});
     const [item, setItem] = useState({
         itemName: '',
         description: '',
@@ -28,8 +34,17 @@ function AddItem() {
     function handleSubmit(e) {
         e.preventDefault();
 
+        console.log(item.itemName);
+        console.log(item.description);
+        console.log(item.baseprice);
+
         setSubmitted(true);
-        if (item.itemName && item.description && item.baseprice) {
+        if(ID&& item.itemName&&item.description&&item.baseprice)
+        {
+            console.log("ID present");
+            dispatch(itemActions.post(item,ID));
+        }
+        else if (item.itemName && item.description && item.baseprice) {
             dispatch(itemActions.add(item));
         }
     }
@@ -40,21 +55,21 @@ function AddItem() {
             <form name="form" onSubmit={handleSubmit}>
             <div className="form-group">
                     <label>Name</label>
-                    <input type="text" name="itemName" value={item.itemName} onChange={handleChange} className={'form-control' + (submitted && !user.email ? ' is-invalid' : '')} />
+                    <input type="text" name="itemName" value={item.itemName} onChange={handleChange} className={'form-control' + (submitted && !item.itemName ? ' is-invalid' : '')} />
                     {submitted && !item.itemName &&
                         <div className="invalid-feedback">Name is required</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Description</label>
-                    <input type="text" name="firstName" value={item.description} onChange={handleChange} className={'form-control' + (submitted && !user.firstName ? ' is-invalid' : '')} />
+                    <input type="text" name="description" value={item.description} onChange={handleChange} className={'form-control' + (submitted && !item.description ? ' is-invalid' : '')} />
                     {submitted && !item.description &&
                         <div className="invalid-feedback">Description is required</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Base Price</label>
-                    <input type="text" name="lastName" value={item.baseprice} onChange={handleChange} className={'form-control' + (submitted && !user.lastName ? ' is-invalid' : '')} />
+                    <input type="text" name="baseprice" value={item.baseprice} onChange={handleChange} className={'form-control' + (submitted && !item.baseprice ? ' is-invalid' : '')} />
                     {submitted && !item.baseprice &&
                         <div className="invalid-feedback">Base Price is required</div>
                     }
